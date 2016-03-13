@@ -1,20 +1,19 @@
 import spotipy
 import spotipy.util as util
 
-#variables
+#update variables with desired usernames and credentials acquired from https://developer.spotify.com/my-applications/#!/
 username_1 = ''
 username_2 = ''
 client_id = ''
 client_secret = ''
-redirect_uri = 'http://:8888/callback'
-dict_playlists = {}
-dict_tracks = {}
+redirect_uri = ''
 
 #authorize user access and get access token for first user
 token = util.prompt_for_user_token(username_1, client_id = client_id, client_secret = client_secret, redirect_uri = redirect_uri)
 sp = spotipy.Spotify(auth=token)
 
 #create dict of playlist names and Spotify playlist_ids
+dict_playlists = {}
 playlists = sp.user_playlists(username_1)
 for item in playlists['items']:
     name = item['name']
@@ -22,6 +21,7 @@ for item in playlists['items']:
     dict_playlists[name]=playlist_id
 
 #create dict of playlist names (keys) and list of track ids (values)
+dict_tracks = {}
 for item in dict_playlists:
     try:
         tracks = sp.user_playlist_tracks(username_1, playlist_id = dict_playlists[item])
